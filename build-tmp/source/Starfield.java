@@ -1,6 +1,22 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Starfield extends PApplet {
+
 NormalParticle [] notOdd = new NormalParticle[1000];
 OddballParticle notEven;
-void setup(){
+public void setup(){
 	size(500,500);
 	background(0);
 	for(int i = 0; i < notOdd.length; i++){
@@ -8,7 +24,7 @@ void setup(){
     }
     notEven = new OddballParticle(250,250);
 }
-void draw(){
+public void draw(){
 	background(0);
 	for(int i = 0; i < notOdd.length; i++){
 		notOdd[i].move();
@@ -32,15 +48,15 @@ class NormalParticle{
 		g = (int)(Math.random()*255)+1;
 		b = (int)(Math.random()*255)+1;
 	}
-	void show(){
+	public void show(){
 		fill(r,g,b);
 		ellipse((int)xpos,(int)ypos,5,5);
 	}
-	void move(){
+	public void move(){
 		xpos = Math.cos(angle) * speed + xpos;
 		ypos = Math.sin(angle) * speed + ypos;
 	}
-	void loopBack(){
+	public void loopBack(){
 		if(xpos < 0 || xpos > 500 || ypos < 0 || ypos > 500){
 			xpos = xClick;
 			ypos = yClick;
@@ -61,11 +77,11 @@ class OddballParticle{
 		xpos = x;
 		ypos = y;
 	}
-	void show(){
+	public void show(){
 		fill(0,255,0);
 		ellipse((int)xpos,(int)ypos,25,25);
 	}
-	void move(){
+	public void move(){
 		xpos = mouseX;
 		ypos = mouseY;
 	}
@@ -76,3 +92,12 @@ class OddballParticle{
 //Particle(), the class constructor
 //void move(), Takes the cos of the angle times the speed and adds it to the X coordinate. Does the same to Y with the sin of the angle.
 //void show(), sets the current color to the color of the particle and draws a dot using ellipse()
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Starfield" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
