@@ -15,12 +15,16 @@ import java.io.IOException;
 public class Starfield extends PApplet {
 
 NormalParticle [] notOdd = new NormalParticle[1000];
+JumboParticle[] notNormal = new JumboParticle[100];
 OddballParticle notEven;
 public void setup(){
 	size(500,500);
 	background(0);
 	for(int i = 0; i < notOdd.length; i++){
         notOdd[i] = new NormalParticle(250,250);
+    }
+    for(int i = 0; i < notNormal.length; i++){
+    	notNormal[i] = new JumboParticle();
     }
     notEven = new OddballParticle(250,250);
 }
@@ -31,15 +35,33 @@ public void draw(){
 		notOdd[i].loopBack();
 		notOdd[i].show();
 	}
+	for(int i = 0; i < notNormal.length; i++){
+		notNormal[i].move();
+		notNormal[i].loopBack();
+		notNormal[i].show();
+	}
 	notEven.move();
 	notEven.show();
 }
 class NormalParticle{
 	int r,g,b;
-	double angle, speed, xpos, ypos, xClick, yClick;
+	double angle, speed, xpos, ypos, xClick, yClick,pSize;
 	NormalParticle(int x, int y){
 		xpos = x;
 		ypos = y;
+		pSize = 5;
+		speed = (int)(Math.random() * 5) + 1;
+		angle = (Math.random() * 2 * Math.PI);
+		xClick = 250;
+		yClick = 250;
+		r = (int)(Math.random()*255)+1;
+		g = (int)(Math.random()*255)+1;
+		b = (int)(Math.random()*255)+1;
+	}
+	NormalParticle(){
+		xpos = 250;
+		ypos = 250;
+		pSize = 5;
 		speed = (int)(Math.random() * 5) + 1;
 		angle = (Math.random() * 2 * Math.PI);
 		xClick = 250;
@@ -50,7 +72,7 @@ class NormalParticle{
 	}
 	public void show(){
 		fill(r,g,b);
-		ellipse((int)xpos,(int)ypos,5,5);
+		ellipse((int)xpos,(int)ypos,(int)pSize,(int)pSize);
 	}
 	public void move(){
 		xpos = Math.cos(angle) * speed + xpos;
@@ -84,6 +106,11 @@ class OddballParticle{
 	public void move(){
 		xpos = mouseX;
 		ypos = mouseY;
+	}
+}
+class JumboParticle extends NormalParticle{
+	JumboParticle(){
+		pSize = 10;
 	}
 }
 
